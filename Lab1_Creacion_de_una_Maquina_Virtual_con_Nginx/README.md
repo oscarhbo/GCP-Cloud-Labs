@@ -13,13 +13,38 @@ El objetivo de este laboratorio es aprender a crear una máquina virtual en GCP 
 2. Abre la consola de cloud shell en GCP.
 3. Clona este repositorio y accede a la carpeta "Lab_1: Creación de una Máquina Virtual con Nginx".
 4. Ejecuta el script "create_vm.sh" para crear una máquina virtual con el tráfico de http habilitado.
-5. Ejecuta el script "install_nginx.sh" para instalar Nginx en la máquina virtual recién creada.
-6. Verifica que Nginx está corriendo y que puedes acceder a él desde el navegador web.
+5. Verifica que Nginx está corriendo y que puedes acceder a él desde el navegador web.
+
+## Validaciones
+Para poder validar el resultado del Lab puedes realizar lo siguiente
+
+`gcloud compute instances list` -> Listará las instancias creadas en el proyecto en donde estemos parados
+
+`gcloud compute instances list --filter="name=vmprb-nginx01 AND zone:us-central1-b"` -> Con esto podemos ser más específicos para filtrar la máquina
+
+`gcloud compute instances describe vmprb-nginx01` -> De esta forma podemos describir la vm
+
+Para validar el servidor nginx podemos hacer lo siguiente:
+
+- Primero obtener la ip de la vm y almacenarla en la variable vm_ip
+
+    `vm_ip=$(gcloud compute instances describe vmprb-nginx01 --zone us-central1-b --format='value(networkInterfaces[0].accessConfigs[0].natIP)')`
+
+- Después ejecutar una petición con la utilidad de curl para ver si responde
+
+    `curl http://$vm_ip:80`
+
+Si se desea realizar las validaciones de forma automática, entonces sólo ejecutar el script `validar_lab.sh`
+
+
+curl http://$vm_ip:80
 
 ## Archivos
 Este laboratorio incluye los siguientes archivos:
 - `create_vm.sh`: script para crear una máquina virtual en GCP con el tráfico de http habilitado.
 - `install_nginx.sh`: script para instalar Nginx en la máquina virtual recién creada.
+- `validar_lab.sh`: Valida que se hayan completado los objetivos del lab correctamente
+- `limpiar_lab.sh`: Este script ayuda e aliminar los recursos aprovisionados en este lab y evitar cargos extras en nuestra cuenta
 
 ---
 
