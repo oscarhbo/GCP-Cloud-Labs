@@ -46,7 +46,7 @@ Este laboratorio incluye los siguientes archivos:
     --`tags`: Especifica una etiqueta que se asignará a la máquina virtual. En este caso, se está utilizando http-server. Esto nos servirá para poder hacer referencia a la máquina en la firewal-rule
 
     --`zone`: Especifica la zona en la que se creará la máquina virtual. En este caso, se está utilizando us-central1-b.
-    
+
 
 - `gcloud compute firewall-rules create`: Este comando se usa para crear una regla de firewall que permita el tráfico HTTP a la máquina virtual.
 
@@ -55,7 +55,7 @@ Este laboratorio incluye los siguientes archivos:
     
     --`allow tcp:80`: Permite el tráfico TCP en el puerto 80
 
-    --`target-tags` http-server: Aplica la regla de firewall a las máquinas virtuales con la etiqueta http-server
+    --`target-tags http-server`: Aplica la regla de firewall a las máquinas virtuales con la etiqueta http-server
     
     --`source-ranges` 0.0.0.0/0: Permite el acceso desde cualquier dirección IP
     
