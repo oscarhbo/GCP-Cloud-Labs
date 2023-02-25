@@ -6,7 +6,9 @@ Bienvenido al primer laboratorio de este repositorio, aquí aprenderás a crear 
 
 <!--![diagrama](./imagenes/diagrama.png){width=50%}-->
 
-<img src="./imagenes/diagrama.png" alt="diagrama" style="display: block; margin: 0 auto;" width="50%" height="50%">
+<p align="center">
+  <img src="./imagenes/diagrama.png" alt="diagrama" width="50%" height="50%">
+</p>
 
 
 ## Antes de comenzar
