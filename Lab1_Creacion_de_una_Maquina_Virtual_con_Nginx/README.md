@@ -2,6 +2,13 @@
 
 Bienvenido al primer laboratorio de este repositorio, aquí aprenderás a crear una máquina virtual en Google Cloud Platform (GCP) y configurar Nginx como servidor web.
 
+---
+
+<!--![diagrama](./imagenes/diagrama.png){width=50%}-->
+
+<img src="./imagenes/diagrama.png" alt="diagrama" style="display: block; margin: 0 auto;" width="50%" height="50%">
+
+
 ## Antes de comenzar
 Antes de comenzar este laboratorio, es necesario que tengas una cuenta en GCP y conozcas los conceptos básicos de la plataforma.
 
