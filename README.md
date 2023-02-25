@@ -13,9 +13,9 @@ Antes de comenzar a realizar los ejercicios, es necesario que tengas una cuenta 
 ---
 
 ## Índice
-- [Lab 1: Creación de una Máquina Virtual con Nginx](#lab-1-creación-de-una-máquina-virtual-con-nginx)
-- [Lab 2: Configuración de Almacenamiento en la Nube](#lab-2-configuración-de-almacenamiento-en-la-nube)
-- [Lab 3: Despliegue de una Aplicación Web](#lab-3-despliegue-de-una-aplicación-web)
+- [Lab 1: Creación de una Máquina Virtual con Nginx](Lab1_Creacion_de_una_Maquina_Virtual_con_Nginx)
+- [Lab 2: Configuración de Almacenamiento en la Nube](Lab2_Configuracion_de_Almacenamiento_en_la_Nube)
+- [Lab 3: Despliegue de una Aplicación Web](Lab3_Despliegue_de_una_Aplicacion_Web)
 
 
 ## Instrucciones de Uso
