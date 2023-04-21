@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source ./../../utils/funciones.sh
+
 # Defino los nombre de los recursos que utilizaré
 VM_NAME1="web-server-prb1"
 ZONE1="us-central1-a"
@@ -21,12 +23,10 @@ gcloud compute instance-templates create $INSTANCE_TEMPLATE \
 # Verifica si la plantilla de instancia se creó satisfactoriamente
 if [ $? -ne 0 ]; then
   echo ""
-  echo "[Error] Problemas al crear la instance template"
-  echo ""
+  print_msg "[Error] Problemas al crear la instance template"
   exit 1
 else
-  echo "La instance Template $INSTANCE_TEMPLATE ha sido creada correctamente."
-  echo ""
+  print_msg "La instance Template $INSTANCE_TEMPLATE ha sido creada correctamente."
 fi
 
 # Crea la primer Vm con la plantilla
@@ -37,12 +37,10 @@ gcloud compute instances create $VM_NAME1 \
 # Verifica si la vm 1 se creó satisfactoriamente
 if [ $? -ne 0 ]; then
   echo ""
-  echo "[Error] Problemas al crear la VM $VM_NAME1"
-  echo ""
+  print_msg "[Error] Problemas al crear la VM $VM_NAME1"
   exit 1
 else
-  echo "La VM $VM_NAME1 ha sido creada correctamente."
-  echo ""
+  print_msg "La VM $VM_NAME1 ha sido creada correctamente."
 fi
 
 # Crea la primer Vm con la plantilla
@@ -53,16 +51,14 @@ gcloud compute instances create $VM_NAME2 \
 # Verifica si la vm 2 se creó satisfactoriamente
 if [ $? -ne 0 ]; then
   echo ""
-  echo "[Error] Problemas al crear la VM $VM_NAME2"
-  echo ""
+  print_msg "[Error] Problemas al crear la VM $VM_NAME2"
   exit 1
 else
-  echo "La VM $VM_NAME2 ha sido creada correctamente."
-  echo ""
+  print_msg "La VM $VM_NAME2 ha sido creada correctamente."
 fi
 
 # Crear la regla de firewall para abrir el tráfico http
-gcloud compute firewall-rules create $$FIREWALL_RULE_HTTP \
+gcloud compute firewall-rules create $FIREWALL_RULE_HTTP \
   --allow tcp:80 \
   --target-tags http-server \
   --source-ranges 0.0.0.0/0 \
@@ -71,10 +67,8 @@ gcloud compute firewall-rules create $$FIREWALL_RULE_HTTP \
   # Verifica si la firewall rule se creó satisfactoriamente
 if [ $? -ne 0 ]; then
   echo ""
-  echo "[Error] Problemas al crear la regla de Firewall $FIREWALL_RULE_HTTP"
-  echo ""
+  print_msg "[Error] Problemas al crear la regla de Firewall $FIREWALL_RULE_HTTP"
   exit 1
 else
-  echo "La regla de Firewall $FIREWALL_RULE_HTTP ha sido creada correctamente."
-  echo ""
+  print_msg "La regla de Firewall $FIREWALL_RULE_HTTP ha sido creada correctamente."
 fi
