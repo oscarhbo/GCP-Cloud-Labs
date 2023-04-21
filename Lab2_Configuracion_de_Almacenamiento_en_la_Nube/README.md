@@ -1,6 +1,6 @@
 # Laboratorio 2: Configuración del Almacenamiento en Cloud Storage
 
-Bienvenido al laboratorio #2 de este repositorio, aquí aprenderás a crear crear un bucket de almacenamiento, subir objetos a él, crear carpetas y subcarpetas en él y permitir el acceso público a los objetos con la línea de comandos de Google Cloud.
+Bienvenido al laboratorio #2 de este repositorio, aquí aprenderás a crear un bucket de almacenamiento, subir objetos a él, crear carpetas y subcarpetas en él y permitir el acceso público a los objetos con la línea de comandos de Google Cloud.
 
 ## Antes de comenzar
 Antes de comenzar este laboratorio, es necesario que tengas una cuenta en GCP y conozcas los conceptos básicos de la plataforma.

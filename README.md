@@ -19,9 +19,9 @@ Antes de comenzar a realizar los ejercicios, es necesario que tengas una cuenta 
 
 
 ## Instrucciones de Uso
-1. Haga un fork de este repositorio a su cuenta de Github
-2. Clone el repositorio a su equipo local
-3. Siga las instrucciones detalladas en cada uno de los ejercicios
+1. Haz un fork de este repositorio a tu cuenta de Github
+2. Clona el repositorio a tu equipo local
+3. Sigue las instrucciones detalladas en cada uno de los ejercicios
 
 ## Cómo Contribuir
 Si tienes algún ejercicio o laboratorio que quieras agregar a este repositorio, no dudes en crear un pull request. También puedes reportar errores o proporcionar sugerencias para mejorar la experiencia de aprendizaje.

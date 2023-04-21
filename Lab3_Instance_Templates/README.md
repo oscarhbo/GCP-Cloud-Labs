@@ -28,7 +28,7 @@ Utilizar la plantilla para crear instancias de VM de manera automatizada.
 2. Abre la consola de cloud shell en GCP.
 3. Clona este repositorio y accede a la carpeta "Lab3_Instance_Templates/scripts".
 
-4. Crear la instancia de plantilla con el siguiente comando
+4. Crear la plantilla de instancia con el siguiente comando
 
 ```
 gcloud compute instance-templates create imagen1-webserver \
