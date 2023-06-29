@@ -109,7 +109,7 @@ Ejecutar de forma automática mediante un shell script. Lo que permitirá ver el
 
 1. Asegúrate de tener acceso a la CLI de GCP.
 2. Abre la consola de cloud shell en GCP.
-3. Clona este repositorio y accede a la carpeta "Lab_1: Creación de una Máquina Virtual con Nginx".
+3. Clona este repositorio y accede a la carpeta "Lab1_Creacion_de_una_Maquina_Virtual_con_Nginx".
 4. Ejecuta el script "create_vm.sh" para crear una máquina virtual con el tráfico de http habilitado.
 5. Verifica que Nginx está corriendo y que puedes acceder a él desde el navegador web.
 

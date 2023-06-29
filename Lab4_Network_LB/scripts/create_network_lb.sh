@@ -88,7 +88,7 @@ else
 fi
 
 # Se crea la firewall-rule para permitir el tráfico por el puerto 80
-gcloud compute firewall-rules create www-firewall-network-lb \
+gcloud compute firewall-rules create $REGLA_NET_LB \
     --target-tags network-lb-tag --allow tcp:80
 
 if [ $? -ne 0 ]; then

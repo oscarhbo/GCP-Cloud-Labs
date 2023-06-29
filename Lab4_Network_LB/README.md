@@ -187,8 +187,6 @@ La respuesta del comando curl se alterna de manera aleatoria entre las tres inst
 Ahora ya has entendido como crear y configurar un Balanceador de Carga de Red y has podido comprobar como se realiza la distribución de tráfico desde una misma IP a cada una de las instancias que tenemos como servidores Web.
 
 
-------------------------- pendiente de hacer la parte automática --------------------------------
-
 ---
 ### Modalidad Automática
 
@@ -197,9 +195,9 @@ Ejecutar de forma automática mediante un shell script. Lo que permitirá ver el
 
 1. Asegúrate de tener acceso a la CLI de GCP.
 2. Abre la consola de cloud shell en GCP.
-3. Clona este repositorio y accede a la carpeta "Lab_1: Creación de una Máquina Virtual con Nginx".
-4. Ejecuta el script "create_vm.sh" para crear una máquina virtual con el tráfico de http habilitado.
-5. Verifica que Nginx está corriendo y que puedes acceder a él desde el navegador web.
+3. Clona este repositorio y accede a la carpeta "Lab4_Network_LB".
+4. Ejecuta el script `create_network_lb.sh` para crear todos los recursos necesarios para probar el load balancer de red.
+5. Verifica que puedas accesar a las vms desde un navegador y que también puedas acceder al LB con la IP estática generada.
 
 ## Validaciones
 
@@ -209,8 +207,7 @@ Si se desea realizar las validaciones de forma automática, entonces sólo ejecu
 
 ## Archivos
 Este laboratorio incluye los siguientes archivos:
-- `create_vm.sh`: script para crear una máquina virtual en GCP con el tráfico de http habilitado.
-- `install_nginx.sh`: script para instalar Nginx en la máquina virtual recién creada.
+- `create_network_lb.sh`: script para crear las vms y los recursos necesarios para el Load Balancer de Red
 - `validar_lab.sh`: Valida que se hayan completado los objetivos del lab correctamente
 - `limpiar_lab.sh`: Este script ayuda e aliminar los recursos aprovisionados en este lab y evitar cargos extras en nuestra cuenta
 
@@ -222,40 +219,96 @@ Este laboratorio incluye los siguientes archivos:
 
     Las banderas utilizadas en este comando son las siguientes:
 
-    --`image-family`: Especifica la familia de imágenes que se usará para crear la máquina virtual. En este caso, se está utilizando ubuntu-2004-lts.
+    `--image-family`: Especifica la familia de imágenes que se usará para crear la máquina virtual. En este caso, se está utilizando ubuntu-2004-lts.
 
-    --`image-project`: Especifica el proyecto en el que se encuentra la imagen de la máquina virtual. En este caso, se está utilizando ubuntu-os-cloud.
+    `--image-project`: Especifica el proyecto en el que se encuentra la imagen de la máquina virtual. En este caso, se está utilizando ubuntu-os-cloud.
 
-    --`create-disk`: Especifica el tamaño del disco que se creará para la máquina virtual. En este caso, se está utilizando size=10GB.
+    `--create-disk`: Especifica el tamaño del disco que se creará para la máquina virtual. En este caso, se está utilizando size=10GB.
 
-    --`metadata-from-file`: Especifica el script que se ejecutará al inicio de la máquina virtual. En este caso, se está utilizando startup-script=install_nginx.sh, para poder realizar la instalación del nginx.
+    `--metadata-from-file`: Especifica el script que se ejecutará al inicio de la máquina virtual. En este caso, se está utilizando startup-script=install_nginx.sh, para poder realizar la instalación del nginx.
 
-    --`preemptible`: Especifica que la máquina virtual es preemptible, lo que significa que puede ser interrumpida en cualquier momento.
+    `--preemptible`: Especifica que la máquina virtual es preemptible, lo que significa que puede ser interrumpida en cualquier momento.
 
-    --`boot-disk-size`: Especifica el tamaño del disco de arranque de la máquina virtual. En este caso, se está utilizando 10GB.
+    `--boot-disk-size`: Especifica el tamaño del disco de arranque de la máquina virtual. En este caso, se está utilizando 10GB.
 
-    --`boot-disk-type`: Especifica el tipo de disco de arranque de la máquina virtual. En este caso, se está utilizando pd-standard.
+    `--boot-disk-type`: Especifica el tipo de disco de arranque de la máquina virtual. En este caso, se está utilizando pd-standard.
 
-    --`tags`: Especifica una etiqueta que se asignará a la máquina virtual. En este caso, se está utilizando http-server. Esto nos servirá para poder hacer referencia a la máquina en la firewal-rule
+    `--tags`: Especifica una etiqueta que se asignará a la máquina virtual. En este caso, se está utilizando http-server. Esto nos servirá para poder hacer referencia a la máquina en la firewal-rule
 
-    --`zone`: Especifica la zona en la que se creará la máquina virtual. En este caso, se está utilizando us-central1-b.
+    `--zone`: Especifica la zona en la que se creará la máquina virtual. En este caso, se está utilizando us-central1-b.
 
 
 - `gcloud compute firewall-rules create`: Este comando se usa para crear una regla de firewall que permita el tráfico HTTP a la máquina virtual.
 
 
     `gcloud compute firewall-rules create allow-http`: Crea una regla de firewall llamada allow-http
-    
-    --`allow tcp:80`: Permite el tráfico TCP en el puerto 80
 
-    --`target-tags http-server`: Aplica la regla de firewall a las máquinas virtuales con la etiqueta http-server
+    Las banderas utilizadas en este comando son las siguientes:
     
-    --`source-ranges` 0.0.0.0/0: Permite el acceso desde cualquier dirección IP
+    `--allow tcp:80`: Permite el tráfico TCP en el puerto 80
+
+    `--target-tags http-server`: Aplica la regla de firewall a las máquinas virtuales con la etiqueta http-server
     
-    --`description` "Allow HTTP traffic": Agrega una descripción para la regla de firewall
+    `--source-ranges` 0.0.0.0/0: Permite el acceso desde cualquier dirección IP
+    
+    `--description` "Allow HTTP traffic": Agrega una descripción para la regla de firewall
+
+
+- `gcloud compute addresses create network-lb-ip-1`: Crea una dirección IP estática llamada network-lb-ip-1
+
+    Las banderas utilizadas en este comando son las siguientes:
+
+  `--region us-central1`: Especifica la región donde se creará la dirección IP estática.
+
+  `--description "Mi IP estática"`: Agrega una descripción para la dirección IP estática.
+
+  `--subnet my-subnet`: Asocia la dirección IP estática con la subred llamada my-subnet.
+
+  `--project my-project`: Especifica el proyecto donde se creará la dirección IP estática.
+
+
+- `gcloud compute http-health-checks create basic-check`: Este comando se utiliza para crear un Health Check de HTTP de nombre basic-check.
+
+    Las banderas que podemos utilizar con este comando son las siguientes:
+
+  `--port`: Especifica el puerto en el que se realizará la comprobación de salud. En este caso, se utiliza el puerto 80.
+
+  `--request-path`: Especifica la ruta del recurso que se utilizará para la comprobación de salud. En este caso, se utiliza /health.
+
+  `--check-interval`: Especifica el intervalo de tiempo en segundos entre cada comprobación de salud. En este caso, se utiliza un intervalo de 5 segundos.
+
+  `--timeout`: Especifica el tiempo máximo en segundos para esperar una respuesta del recurso en la comprobación de salud. En este caso, se utiliza un tiempo de espera de 5 segundos.
+
+  `--unhealthy-threshold`: Especifica el número de comprobaciones consecutivas fallidas antes de considerar el recurso como no saludable. En este caso, se utiliza un umbral de 3 comprobaciones fallidas.
+
+  `--healthy-threshold`: Especifica el número de comprobaciones consecutivas exitosas antes de considerar el recurso como saludable nuevamente. En este caso, se utiliza un umbral de 2 comprobaciones exitosas.
+
+  `--project`: Especifica el proyecto en el que se creará el Health Check de HTTP.
+
+  `--description`: Agrega una descripción para el Health Check de HTTP.
+
+  `--host`: Especifica el nombre de host para la comprobación de salud. En este caso, se utiliza example.com.
+
+  `--request-port`: Especifica el puerto de destino para la comprobación de salud. En este caso, se utiliza el puerto 80.
+
+  `--proxy-header`: Especifica una cabecera HTTP opcional para la comprobación de salud.
+
+  `--request-proxy-header`: Especifica una cabecera HTTP opcional para la comprobación de sal  
+
+
+- `gcloud compute target-pools create www-pool`: Este comando se utiliza para crear un grupo de destino llamado www-pool.
+
+    Las banderas utilizadas con este comando son las siguientes:
+
+  `--region us-east1`: Especifica la región en la que se creará el grupo de destino. En este caso, se utiliza la región us-east1.
+
+  `--http-health-check basic-check`: Asocia un Health Check de HTTP llamado basic-check al grupo de destino.
+
+
+
 
 ---
 
 ## Conclusiones
-Al finalizar este laboratorio, habrás aprendido a crear una máquina virtual en GCP y configurar Nginx como servidor web. Esto es un paso importante para poder desplegar aplicaciones web en la nube.
+Al finalizar este laboratorio, habrás aprendido a configurar y utilizar un Load Balancer de red en Google Cloud Platform. Aprenderás a crear y configurar instancias de máquinas virtuales y a implementar un Load Balancer de red para distribuir el tráfico de red de manera eficiente entre estas instancias. Esto es un paso importante para lograr una alta disponibilidad y escalabilidad en tus aplicaciones web alojadas en la nube, permitiéndote gestionar de manera eficiente el tráfico de red y garantizar un rendimiento óptimo para tus usuarios.
 
