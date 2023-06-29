@@ -135,7 +135,7 @@ gcloud compute firewall-rules create www-firewall-network-lb \
 
 `gcloud compute http-health-checks create basic-check`
 
-3. Agregar un grupo de destino en la misma región que las instancias. Con el siguiente comando para crear el grupo de destino www-pool y se le indicará que va a utilizar la verificación de estado basic-check:
+3. Crear un grupo de destino en la misma región que las instancias. Con el siguiente comando para crear el grupo de destino www-pool y se le indicará que va a utilizar la verificación de estado basic-check:
 
 ```
 gcloud compute target-pools create www-pool \
