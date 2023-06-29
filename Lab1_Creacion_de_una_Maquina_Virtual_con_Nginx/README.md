@@ -18,6 +18,95 @@ Antes de comenzar este laboratorio, es necesario que tengas una cuenta en GCP y 
 El objetivo de este laboratorio es aprender a crear una máquina virtual en GCP y configurar Nginx como servidor web.
 
 ## Instrucciones
+
+
+Este Lab tiene dos modalidades: 
+
+---
+### Modalidad Paso a Paso
+
+Ejecutar de forma manual cada una de las instrucciones, lo que permite visualizar y explorar el avance desde la consola. Para ello ejecuta los siguientes pasos:
+
+### Creación de un Máquina Virtual (VM)
+
+1. Acceder a la consola de Google Cloud Platform y abrir Cloud Shell.
+
+2. Crear el shell para instalar un nginx en debian con el siguiente comando 
+
+`echo '#! /bin/bash
+sudo apt-get update
+sudo apt-get -y install nginx
+sudo systemctl enable nginx
+sudo systemctl start nginx' > install_nginx.sh`
+
+3. Crear la instancia en GCE con el siguiente comando:
+
+`gcloud compute instances create vmprb-nginx01 \
+  --image-family ubuntu-2004-lts \
+  --image-project ubuntu-os-cloud \
+  --create-disk size=10GB \
+  --preemptible \
+  --boot-disk-size 10GB \
+  --boot-disk-type pd-standard \
+  --tags http-server \
+  --metadata-from-file startup-script=install_nginx.sh \
+  --zone=us-central1-b`
+
+4. Ahora para validaremos que la VM se haya completado con éxito, primero definimos las variables de ambiente para el nombre de la VM y para la Zona 
+
+`vm_name=vmprb-nginx01
+zone=us-central1-b`
+
+5. Para validar la existencia de la VM pordemos realizarlo de varias formas
+
+`gcloud compute instances list` -> Listará las instancias creadas en el proyecto en donde estemos parados
+
+`gcloud compute instances list --filter="name=$vm_name AND zone:$zone"` -> Con esto podemos ser más específicos para filtrar la máquina
+
+`gcloud compute instances describe "$vm_name" --zone="$zone"` -> De esta forma podemos describir la vm
+
+6. Para validar el servidor nginx podemos hacer lo siguiente: 
+   
+   Primero obtener la ip de la vm y almacenarla en la variable vm_ip
+
+    `vm_ip=$(gcloud compute instances describe $vm_name --zone $zone --format='value(networkInterfaces[0].accessConfigs[0].natIP)')`
+
+7. Después ejecutar una petición con la utilidad de curl para ver si responde
+
+    `curl http://$vm_ip:80`
+
+    El punto anterior no funcionará, ya que no hemos abierto el tráfico de red aún para el puerto 80, por lo que será necesario cancelar su ejecución con un Control-C
+
+8. Para permitir el tráfico http, es necesario crear una FireWall Rule con el siguiente comando.
+
+`gcloud compute firewall-rules create allow-http \
+  --allow tcp:80 \
+  --target-tags http-server \
+  --source-ranges 0.0.0.0/0 \
+  --description "Allow HTTP traffic"`
+
+  Lo que indica que permitirá a cualquier ip comunicarse por el puerto 80 con las VMs que tenga el tag `http-server`
+
+9. Una vez creada la Firewall Rule , volvemos a hacer la petición:
+
+`curl http://$vm_ip:80` y ahora si debe de ser exitosa.
+
+10. También podrías pegar en un navegar la dirección con tu ip `http://$vm_ip:80` , y el resultado debería de ser el siguiente 
+
+<p align="center">
+  <img src="./imagenes/Resultado_nginx.png" alt="Nginx" width="50%" height="50%">
+</p>
+
+## ***¡Felicidades!***
+
+Ahora ya has entendido como poder aprovisionar una Máquina Virtual en GCE y como poder tener acceso desde internet mediante llamadas HTTP
+
+---
+### Modalidad Automática
+
+Ejecutar de forma automática mediante un shell script. Lo que permitirá ver el resultado del laboratorio, pero realizandolo de forma automática mediante un script. Para ello ejecuta los siguientes pasos:
+
+
 1. Asegúrate de tener acceso a la CLI de GCP.
 2. Abre la consola de cloud shell en GCP.
 3. Clona este repositorio y accede a la carpeta "Lab_1: Creación de una Máquina Virtual con Nginx".
@@ -25,28 +114,10 @@ El objetivo de este laboratorio es aprender a crear una máquina virtual en GCP 
 5. Verifica que Nginx está corriendo y que puedes acceder a él desde el navegador web.
 
 ## Validaciones
-Para poder validar el resultado del Lab puedes realizar lo siguiente
 
-`gcloud compute instances list` -> Listará las instancias creadas en el proyecto en donde estemos parados
-
-`gcloud compute instances list --filter="name=vmprb-nginx01 AND zone:us-central1-b"` -> Con esto podemos ser más específicos para filtrar la máquina
-
-`gcloud compute instances describe vmprb-nginx01` -> De esta forma podemos describir la vm
-
-Para validar el servidor nginx podemos hacer lo siguiente:
-
-- Primero obtener la ip de la vm y almacenarla en la variable vm_ip
-
-    `vm_ip=$(gcloud compute instances describe vmprb-nginx01 --zone us-central1-b --format='value(networkInterfaces[0].accessConfigs[0].natIP)')`
-
-- Después ejecutar una petición con la utilidad de curl para ver si responde
-
-    `curl http://$vm_ip:80`
 
 Si se desea realizar las validaciones de forma automática, entonces sólo ejecutar el script `validar_lab.sh`
 
-
-curl http://$vm_ip:80
 
 ## Archivos
 Este laboratorio incluye los siguientes archivos:

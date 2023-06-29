@@ -4,7 +4,7 @@ vm_name=vmprb-nginx01
 zone="us-central1-b"
 
 
-if gcloud compute instances describe "$vm_name" --zone=us-central1-b &> /dev/null; then
+if gcloud compute instances describe "$vm_name" --zone="$zone" &> /dev/null; then
   echo "[OK] La máquina virtual $vm_name se creó correctamente."
 else
   echo "[ERROR] La máquina virtual $vm_name no se creó correctamente o no existe. Favor de validar"
