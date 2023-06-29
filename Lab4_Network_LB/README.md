@@ -305,6 +305,17 @@ Este laboratorio incluye los siguientes archivos:
   `--http-health-check basic-check`: Asocia un Health Check de HTTP llamado basic-check al grupo de destino.
 
 
+- `gcloud compute forwarding-rules create www-rule`: Este comando se utiliza para crear una regla de reenvío (forwarding rule) llamada www-rule.
+
+    Las banderas utilizadas con este comando son las siguientes:
+
+  `--region us-east1`: Especifica la región en la que se creará la regla de reenvío. En este caso, se utiliza la región us-east1.
+
+  `--ports 80`: Especifica los puertos en los que se reenviará el tráfico. En este caso, se utiliza el puerto 80.
+
+  `--address network-lb-ip-1`: Especifica la dirección IP del balanceador de carga de red al que se asociará la regla de reenvío.
+
+  `--target-pool www-pool`: Especifica el grupo de destino (target pool) al que se redirigirá el tráfico.
 
 
 ---
