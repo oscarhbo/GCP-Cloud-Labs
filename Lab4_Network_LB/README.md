@@ -41,7 +41,7 @@ Ejecutar de forma manual cada una de las instrucciones, lo que permite visualiza
 
 
 
-### Creación de un Máquina Virtual (VM)
+### Configurar Zona y Región Default
 
 1. Acceder a la consola de Google Cloud Platform y abrir Cloud Shell.
 
