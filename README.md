@@ -17,6 +17,7 @@ Antes de comenzar a realizar los ejercicios, es necesario que tengas una cuenta 
 - [Lab 2: Configuración de Almacenamiento en la Nube](Lab2_Configuracion_de_Almacenamiento_en_la_Nube)
 - [Lab 3: Creación de una Instance Template](Lab3_Instance_Templates)
 - [Lab 4: Despliegue de un Load Balancer de Red](Lab4_Network_LB)
+- [Lab 5: Despliegue de un Load Balancer de Aplicación](Lab5_Application_LB)
 
 
 ## Instrucciones de Uso
