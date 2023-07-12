@@ -251,27 +251,55 @@ Este laboratorio incluye los siguientes archivos:
 
 ## Ayuda de Comandos utilizados
 
-- `gcloud compute instances create`: Este comando se usa para crear una máquina virtual en Google Cloud.
+- `gcloud compute instance-templates create`: Este comando se utiliza para crear una plantilla de instancia en Google Cloud.
 
-    Las banderas utilizadas en este comando son las siguientes:
+  Las banderas utilizadas en este comando son las siguientes:
 
-    `--image-family`: Especifica la familia de imágenes que se usará para crear la máquina virtual. En este caso, se está utilizando ubuntu-2004-lts.
+  `--region`: Especifica la región en la que se creará la plantilla de instancia. En este caso, se utiliza el valor de la variable `$DEF_REGION`.
 
-    `--image-project`: Especifica el proyecto en el que se encuentra la imagen de la máquina virtual. En este caso, se está utilizando ubuntu-os-cloud.
+  `--network`: Especifica la red en la que se creará la instancia. En este caso, se utiliza la red predeterminada (`default`).
 
-    `--create-disk`: Especifica el tamaño del disco que se creará para la máquina virtual. En este caso, se está utilizando size=10GB.
+  `--subnet`: Especifica la subred en la que se creará la instancia. En este caso, se utiliza la subred predeterminada (`default`).
 
-    `--metadata-from-file`: Especifica el script que se ejecutará al inicio de la máquina virtual. En este caso, se está utilizando startup-script=install_nginx.sh, para poder realizar la instalación del nginx.
+  `--tags`: Especifica las etiquetas que se asignarán a la instancia. En este caso, se utiliza el valor de la variable `$NET_TAG`.
 
-    `--preemptible`: Especifica que la máquina virtual es preemptible, lo que significa que puede ser interrumpida en cualquier momento.
+  `--machine-type`: Especifica el tipo de máquina para la instancia. En este caso, se utiliza `e2-medium`.
 
-    `--boot-disk-size`: Especifica el tamaño del disco de arranque de la máquina virtual. En este caso, se está utilizando 10GB.
+  `--image-family`: Especifica la familia de imágenes que se utilizará para crear la instancia. En este caso, se utiliza `debian-11`.
 
-    `--boot-disk-type`: Especifica el tipo de disco de arranque de la máquina virtual. En este caso, se está utilizando pd-standard.
+  `--image-project`: Especifica el proyecto en el que se encuentra la imagen de la instancia. En este caso, se utiliza `debian-cloud`.
 
-    `--tags`: Especifica una etiqueta que se asignará a la máquina virtual. En este caso, se está utilizando http-server. Esto nos servirá para poder hacer referencia a la máquina en la firewal-rule
+  `--metadata`: Especifica los metadatos de la instancia, incluido el script de inicio. En este caso, se utiliza el siguiente script:
 
-    `--zone`: Especifica la zona en la que se creará la máquina virtual. En este caso, se está utilizando us-central1-b.
+    ```
+    #!/bin/bash
+    apt-get update
+    apt-get install apache2 -y
+    a2ensite default-ssl
+    a2enmod ssl
+    vm_hostname="$(curl -H "Metadata-Flavor:Google" \
+    http://169.254.169.254/computeMetadata/v1/instance/name)"
+    echo "Página mostrada desde la vm: $vm_hostname" | \
+    tee /var/www/html/index.html
+    systemctl restart apache2
+    ```
+
+Este comando crea una plantilla de instancia con la configuración especificada, incluyendo la región, la red, la subred, las etiquetas, el tipo de máquina, la imagen y el script de inicio.
+
+
+Aquí está la documentación del comando que has proporcionado:
+
+- `gcloud compute instance-groups managed create`: Este comando se utiliza para crear un grupo de instancias administradas en Google Cloud.
+
+  Las banderas utilizadas en este comando son las siguientes:
+
+  `--template`: Especifica la plantilla de instancia que se utilizará para crear las instancias en el grupo. En este caso, se utiliza el valor de la variable `$INSTANCE_TEMPLATE`.
+
+  `--size`: Especifica el número de instancias que se crearán en el grupo. En este caso, se utiliza el valor `2`.
+
+  `--zone`: Especifica la zona en la que se creará el grupo de instancias. En este caso, se utiliza el valor de la variable `$DEF_ZONE`.
+
+Este comando crea un grupo de instancias administradas con la configuración especificada, incluyendo la plantilla de instancia, el tamaño del grupo y la zona.
 
 
 - `gcloud compute firewall-rules create`: Este comando se usa para crear una regla de firewall que permita el tráfico HTTP a la máquina virtual.
@@ -332,27 +360,60 @@ Este laboratorio incluye los siguientes archivos:
   `--request-proxy-header`: Especifica una cabecera HTTP opcional para la comprobación de sal  
 
 
-- `gcloud compute target-pools create www-pool`: Este comando se utiliza para crear un grupo de destino llamado www-pool.
+- `gcloud compute backend-services create`: Este comando crea un servicio de backend con la configuración especificada, incluyendo el protocolo, el nombre del puerto, la verificación de salud y el alcance global.
 
-    Las banderas utilizadas con este comando son las siguientes:
+  Las banderas utilizadas en este comando son las siguientes:
 
-  `--region us-east1`: Especifica la región en la que se creará el grupo de destino. En este caso, se utiliza la región us-east1.
+  `--protocol`: Especifica el protocolo que se utilizará para el servicio de backend. En este caso, se utiliza `HTTP`.
 
-  `--http-health-check basic-check`: Asocia un Health Check de HTTP llamado basic-check al grupo de destino.
+  `--port-name`: Especifica el nombre del puerto que se utilizará para el servicio de backend. En este caso, se utiliza `http`.
+
+  `--health-checks`: Especifica la verificación de salud que se utilizará para el servicio de backend. En este caso, se utiliza el valor de la variable `$HEALTH_CHECK`.
+
+  `--global`: Especifica que el servicio de backend será global, lo que significa que estará disponible en todas las regiones.
 
 
-- `gcloud compute forwarding-rules create www-rule`: Este comando se utiliza para crear una regla de reenvío (forwarding rule) llamada www-rule.
 
-    Las banderas utilizadas con este comando son las siguientes:
+- `gcloud compute backend-services add-backend`: Este comando se utiliza para agregar un backend (grupo de instancias) a un servicio de backend existente en Google Cloud.
 
-  `--region us-east1`: Especifica la región en la que se creará la regla de reenvío. En este caso, se utiliza la región us-east1.
+  Las banderas utilizadas en este comando son las siguientes:
 
-  `--ports 80`: Especifica los puertos en los que se reenviará el tráfico. En este caso, se utiliza el puerto 80.
+  `--instance-group`: Especifica el nombre del grupo de instancias que se agregará como backend al servicio de backend. En este caso, se utiliza el valor de la variable `$INSTANCE_GROUP`.
 
-  `--address network-lb-ip-1`: Especifica la dirección IP del balanceador de carga de red al que se asociará la regla de reenvío.
+  `--instance-group-zone`: Especifica la zona en la que se encuentra el grupo de instancias. En este caso, se utiliza el valor de la variable `$DEF_ZONE`.
 
-  `--target-pool www-pool`: Especifica el grupo de destino (target pool) al que se redirigirá el tráfico.
+  `--global`: Especifica que el backend se agregará a nivel global en el servicio de backend.
 
+
+Aquí tienes la documentación del comando que has proporcionado:
+
+- `gcloud compute url-maps create`: Este comando crea un mapa de URL con el nombre especificado y asigna el servicio de backend especificado como el servicio predeterminado para el mapa de URL.
+
+  Las banderas utilizadas en este comando son las siguientes:
+
+  `--default-service`: Especifica el servicio de backend que se utilizará como servicio predeterminado en el mapa de URL. En este caso, se utiliza el valor de la variable `$BACKEND_NAME`.
+
+
+- `gcloud compute target-http-proxies create`: Este comando crea un proxy HTTP objetivo con el nombre especificado y lo asocia con el mapa de URL especificado.
+
+  Las banderas utilizadas en este comando son las siguientes:
+
+  `--url-map`: Especifica el mapa de URL que se asociará con el proxy HTTP objetivo. En este caso, se utiliza el valor de la variable `$URL_MAP`.
+
+
+- `gcloud compute forwarding-rules create`: Este comando crea una regla de reenvío con el nombre especificado y configura la dirección IP, el ámbito global, el proxy HTTP objetivo y el puerto.
+
+  Las banderas utilizadas en este comando son las siguientes:
+
+  `--address`: Especifica la dirección IP que se asociará con la regla de reenvío. En este caso, se utiliza el valor de la variable `$IP_LB`.
+
+  `--global`: Especifica que la regla de reenvío será global, lo que significa que estará disponible en todas las regiones.
+
+  `--target-http-proxy`: Especifica el proxy HTTP objetivo que se utilizará para el reenvío de tráfico. En este caso, se utiliza el valor de la variable `$TARGET_PROXY`.
+
+  `--ports`: Especifica los puertos en los que se escuchará el tráfico entrante. En este caso, se utiliza el puerto `80`.
+
+<br>
 
 ---
 

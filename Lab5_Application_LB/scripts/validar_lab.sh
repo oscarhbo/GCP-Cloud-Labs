@@ -34,7 +34,7 @@ else
   print_msg "[ERROR] La firewall-rule $REGLA_FIREWALL_LB no se creó correctamente o no existe. Favor de validar"
 fi
 
-if gcloud compute backend-services describe "$BACKEND_NAME" &> /dev/null; then
+if gcloud compute backend-services describe "$BACKEND_NAME" --global &> /dev/null; then
   print_msg "[OK] El backend-service $BACKEND_NAME se creó correctamente."
 else
   print_msg "[ERROR] El backend-service $BACKEND_NAME no se creó correctamente o no existe. Favor de validar"
@@ -52,7 +52,7 @@ else
   print_msg "[ERROR] El target proxy $TARGET_PROXY no se creó correctamente o no existe. Favor de validar"
 fi
 
-if gcloud compute forwarding-rules describe "$FW_RULE_HTTP" --region=$REGION &> /dev/null; then
+if gcloud compute forwarding-rules describe "$FW_RULE_HTTP" --global &> /dev/null; then
   print_msg "[OK] La forwarding-rule $FW_RULE_HTTP se creó correctamente."
 else
   print_msg "[ERROR] La forwarding-rule $FW_RULE_HTTP no se creó correctamente o no existe. Favor de validar"
