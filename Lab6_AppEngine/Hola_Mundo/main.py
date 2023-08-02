@@ -26,8 +26,7 @@ def hello():
     </body>
     </html>
     """
-    #return render_template_string(html_template)
-    return "Hello World!"
-
+    return render_template_string(html_template)
+    
 if __name__ == '__main__':
     app.run(host="127.0.0.1", port=8080, debug=True)

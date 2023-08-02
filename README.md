@@ -18,6 +18,7 @@ Antes de comenzar a realizar los ejercicios, es necesario que tengas una cuenta 
 - [Lab 3: Creación de una Instance Template](Lab3_Instance_Templates)
 - [Lab 4: Despliegue de un Load Balancer de Red](Lab4_Network_LB)
 - [Lab 5: Despliegue de un Load Balancer de Aplicación](Lab5_Application_LB)
+- [Lab 6: Despliegue de una Aplicación web en Python con App Engine](Lab6_AppEngine)
 
 
 ## Instrucciones de Uso
