@@ -287,8 +287,6 @@ Este laboratorio incluye los siguientes archivos:
 Este comando crea una plantilla de instancia con la configuración especificada, incluyendo la región, la red, la subred, las etiquetas, el tipo de máquina, la imagen y el script de inicio.
 
 
-Aquí está la documentación del comando que has proporcionado:
-
 - `gcloud compute instance-groups managed create`: Este comando se utiliza para crear un grupo de instancias administradas en Google Cloud.
 
   Las banderas utilizadas en este comando son las siguientes:
