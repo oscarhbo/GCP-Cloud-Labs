@@ -23,14 +23,15 @@ En este lab, aprenderás cómo desplegar una aplicación de Python en APP Engine
 
 ## Instrucciones
 
-Este Lab tiene dos modalidades: 
-
 ---
 ### Modalidad Paso a Paso
 
 Ejecutar de forma manual cada una de las instrucciones, lo que permite visualizar y explorar el avance desde la consola. Para ello ejecuta los siguientes pasos:
 
 
+### Nota importante:
+
+Debido a que una vez que se despliega una app en App Engine, no puede ser eliminada, se recomienda realizar la creación de un nuevo proyecto sobre el cual se desplegara el App de ejemplo de este laboratorio. 
 
 ### Habilitar la API de Google App Engine
 
@@ -84,12 +85,13 @@ Usaremos la utilidad dev_appserver.py incluida con el SDK de GCP, la cual nos si
 
 `gcloud app deploy`
 
+4. seleccionar la región en donde se desplegará la App, escogiendo un número de las regiones listadas
 
-4. Para visualizar la aplicación ejecutar el comando
+5. Para visualizar la aplicación ejecutar el comando
 
 `gcloud app browse`
 
-5. Si no se despliega la App dar click en el link que arroja en la consola
+6. Si no se despliega la App dar click en el link que arroja en la consola
 
 
 ### Hacer un Cambio en la App 
@@ -106,12 +108,14 @@ Usaremos la utilidad dev_appserver.py incluida con el SDK de GCP, la cual nos si
 
 `gcloud app deploy`
 
+4. Confirmar con un Y que si queremos desplegar nuevamente la App
 
-4. Para visualizar la aplicación ejecutar el comando
+
+5. Para visualizar la aplicación ejecutar el comando
 
 `gcloud app browse`
 
-5. Si no se despliega la App dar click en el link que arroja en la consola
+6. Si no se despliega la App dar click en el link que arroja en la consola
 
 
 Ahora podemos ver que se debe de haber desplegado la nueva versión de la App con los cambios realizados.
@@ -122,33 +126,43 @@ Ahora podemos ver que se debe de haber desplegado la nueva versión de la App co
 Ahora ya has entendido como probar una Web App desde el SDK de GCP y la facilidad para desplegar esa misma app desde Google App Engine.
 
 
----
-### Modalidad Automática
-
-Ejecutar de forma automática mediante un shell script. Lo que permitirá ver el resultado del laboratorio, pero realizandolo de forma automática mediante un script. Para ello ejecuta los siguientes pasos:
-
-
-1. Asegúrate de tener acceso a la CLI de GCP.
-2. Abre la consola de cloud shell en GCP.
-3. Clona este repositorio y accede a la carpeta "Lab5_Apllication_LB".
-4. Ejecuta el script `create_app_engine.sh` para crear todos los recursos necesarios para probar el despliegue de la app.
-5. Verifica que puedas accesar a la aplicación desplegada.
-
-## Validaciones
-
-
-Si se desea realizar las validaciones de forma automática, entonces sólo ejecutar el script `validar_lab.sh`
-
-
 ## Archivos
 Este laboratorio incluye los siguientes archivos:
-- `create_app_engine.sh`: script para crear los recursos necesarios para desplegar una aplicación en App Engine
-- `validar_lab.sh`: Valida que se hayan completado los objetivos del lab correctamente
-- `limpiar_lab.sh`: Este script ayuda e aliminar los recursos aprovisionados en este lab y evitar cargos extras en nuestra cuenta
+- `app.yaml`: Archivo de configuración principal de Google App Engine. Define cómo se ejecutará y se comportará tu aplicación. Puedes especificar cosas como el lenguaje de programación, la versión del entorno, los recursos, las URL, entre otras configuraciones.
+
+- `requirements.txt`: Este archivo es típicamente utilizado en aplicaciones de Python para especificar las dependencias (bibliotecas y paquetes) que tu aplicación necesita para funcionar correctamente. Las dependencias enumeradas en este archivo se instalarán automáticamente cuando despliegues tu aplicación en App Engine.
+
+- `main.py`: Este archivo es utilizado en aplicaciones de Python para App Engine. Su función principal es actuar como el punto de entrada principal de tu aplicación y gestionar las solicitudes HTTP entrantes.
 
 ---
 
 ## Ayuda de Comandos utilizados
+
+ - `dev_appserver.py app.yaml`: Este comando se utiliza para ejecutar una aplicación en el servidor de desarrollo local.
+
+
+- `app.yaml` es el archivo de configuración de la aplicación.
+
+
+
+- `gcloud app deploy`: Este comando se utiliza para implementar una aplicación en Google App Engine.
+
+El comando gcloud app deploy se utiliza para implementar una aplicación en Google App Engine. Durante la implementación, se suben los archivos y recursos de la aplicación al entorno de App Engine, y se configura automáticamente la escalabilidad, los recursos y otros detalles según la configuración definida en el archivo de configuración de la aplicación (como app.yaml).
+
+Algunas consideraciones importantes:
+
+- Antes de ejecutar este comando, asegúrate de haber configurado correctamente el archivo app.yaml para definir la configuración de tu aplicación.
+
+- Durante la implementación, el comando mostrará información relevante sobre el proceso y te pedirá confirmación antes de continuar.
+
+- Después de la implementación, tu aplicación estará disponible en la URL proporcionada por Google App Engine.
+
+
+**Consejo:** Utiliza la bandera --version seguida de un nombre para asignar un nombre a la versión específica que se está implementando. Esto puede ser útil para llevar un registro de las versiones de tu aplicación.
+
+Ejemplo:
+
+`gcloud app deploy --version=v1`
 
 
 <br>
