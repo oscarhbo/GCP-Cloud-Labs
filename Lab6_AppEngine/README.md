@@ -134,35 +134,34 @@ Este laboratorio incluye los siguientes archivos:
 
 - `main.py`: Este archivo es utilizado en aplicaciones de Python para App Engine. Su función principal es actuar como el punto de entrada principal de tu aplicación y gestionar las solicitudes HTTP entrantes.
 
----
 
 ## Ayuda de Comandos utilizados
 
  - `dev_appserver.py app.yaml`: Este comando se utiliza para ejecutar una aplicación en el servidor de desarrollo local.
 
 
-- `app.yaml` es el archivo de configuración de la aplicación.
+   `app.yaml` es el archivo de configuración de la aplicación.
 
 
 
 - `gcloud app deploy`: Este comando se utiliza para implementar una aplicación en Google App Engine.
 
-El comando gcloud app deploy se utiliza para implementar una aplicación en Google App Engine. Durante la implementación, se suben los archivos y recursos de la aplicación al entorno de App Engine, y se configura automáticamente la escalabilidad, los recursos y otros detalles según la configuración definida en el archivo de configuración de la aplicación (como app.yaml).
+  El comando gcloud app deploy se utiliza para implementar una aplicación en Google App Engine. Durante la implementación, se suben los archivos y recursos de la aplicación al entorno de App Engine, y se configura automáticamente la escalabilidad, los recursos y otros detalles según la configuración definida en el archivo de configuración de la aplicación (como app.yaml).
 
-Algunas consideraciones importantes:
+  Algunas consideraciones importantes:
 
-- Antes de ejecutar este comando, asegúrate de haber configurado correctamente el archivo app.yaml para definir la configuración de tu aplicación.
+  - Antes de ejecutar este comando, asegúrate de haber configurado correctamente el archivo app.yaml para definir la configuración de tu aplicación.
 
-- Durante la implementación, el comando mostrará información relevante sobre el proceso y te pedirá confirmación antes de continuar.
+  - Durante la implementación, el comando mostrará información relevante sobre el proceso y te pedirá confirmación antes de continuar.
 
-- Después de la implementación, tu aplicación estará disponible en la URL proporcionada por Google App Engine.
+  - Después de la implementación, tu aplicación estará disponible en la URL proporcionada por Google App Engine.
 
 
-**Consejo:** Utiliza la bandera --version seguida de un nombre para asignar un nombre a la versión específica que se está implementando. Esto puede ser útil para llevar un registro de las versiones de tu aplicación.
+  **Consejo:** Utiliza la bandera --version seguida de un nombre para asignar un nombre a la versión específica que se está implementando. Esto puede ser útil para llevar un registro de las versiones de tu aplicación.
 
-Ejemplo:
+  Ejemplo:
 
-`gcloud app deploy --version=v1`
+  `gcloud app deploy --version=v1`
 
 
 <br>
